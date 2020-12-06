@@ -114,7 +114,7 @@ class _PlayPageState extends State<PlayPage> {
                 ),
                 InkWell(
                   onTap: () {
-                    getAudio();
+                    // getAudio();
                   },
                   child: Icon(
                       playing == false
