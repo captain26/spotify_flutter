@@ -3,28 +3,26 @@ import 'dart:math';
 
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
+import 'package:spotify/screens/login_page.dart';
 import 'package:spotify/screens/playpage.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 
-
-class Test extends StatefulWidget{
-
-
+class Test extends StatefulWidget {
   @override
   _TestState createState() => _TestState();
 }
 
-
-
 class _TestState extends State<Test> with SingleTickerProviderStateMixin {
+  final _auth = FirebaseAuth.instance;
+
   var tabbarController;
   var selectIndex = 0;
   Future<List<dynamic>> futureSong;
   Future<List<dynamic>> futurePlaylist;
-  
-  
-  Future<List<dynamic>> fetchSong() async {
 
-    final response = await http.get("https://ancient-spire-46177.herokuapp.com/tracks/all/tracks");
+  Future<List<dynamic>> fetchSong() async {
+    final response = await http
+        .get("https://ancient-spire-46177.herokuapp.com/tracks/all/tracks");
     // print(jsonDecode(response.body)[0]['playlist_name']);
     if (response.statusCode == 200) {
       // If the server did return a 200 OK response,
@@ -39,8 +37,8 @@ class _TestState extends State<Test> with SingleTickerProviderStateMixin {
   }
 
   Future<List<dynamic>> fetchPlaylist() async {
-
-    final response = await http.get("https://ancient-spire-46177.herokuapp.com/tracks/playlists/all");
+    final response = await http
+        .get("https://ancient-spire-46177.herokuapp.com/tracks/playlists/all");
     // print(jsonDecode(response.body)[0]['playlist_name']);
     if (response.statusCode == 200) {
       // If the server did return a 200 OK response,
@@ -67,6 +65,35 @@ class _TestState extends State<Test> with SingleTickerProviderStateMixin {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.black54,
+      appBar: AppBar(
+        elevation: 0.0,
+        backgroundColor: Colors.black54,
+        centerTitle: true,
+        actions: [
+          GestureDetector(
+            child: Align(
+              alignment: Alignment.center,
+              child: Text(
+                "SignOut",
+                style: TextStyle(
+                  color: Colors.white,
+                ),
+              ),
+            ),
+            onTap: () async {
+              await _auth.signOut();
+              Navigator.pushAndRemoveUntil(
+                  context,
+                  MaterialPageRoute(builder: (context) => LoginPage()),
+                  (Route<dynamic> route) => false);
+            },
+          ),
+        ],
+        title: Text(
+          'Spotify',
+          style: TextStyle(color: Colors.white),
+        ),
+      ),
       body: Column(
         children: [
           TabBar(
@@ -90,66 +117,73 @@ class _TestState extends State<Test> with SingleTickerProviderStateMixin {
                 controller: tabbarController,
                 children: [
                   FutureBuilder(
-                      future:futureSong,
+                      future: futureSong,
                       builder: (context, snapshot) {
                         if (snapshot.hasData) {
                           return ListView.builder(
                               itemCount: snapshot.data.length,
-                              itemBuilder: (context,index){
-                                return  SongCard(
+                              itemBuilder: (context, index) {
+                                return SongCard(
                                   image: Random().nextInt(7) + 1,
                                   sname: snapshot.data[index]['name'],
                                   songId: snapshot.data[index]['track'],
-                                  artistName: snapshot.data[index]['artist_name'],
+                                  artistName: snapshot.data[index]
+                                      ['artist_name'],
                                 );
-                              }
-                          );
+                              });
                         } else if (snapshot.hasError) {
-                          return Center(child: Text("${snapshot.error}",));
+                          return Center(
+                              child: Text(
+                            "${snapshot.error}",
+                          ));
                         }
-
                         // By default, show a loading spinner.
-                        return CircularProgressIndicator();
-
-
-                      }
-
-                  ),
+                        return Column(
+                          children: [
+                            Spacer(),
+                            CircularProgressIndicator(),
+                            Spacer(),
+                          ],
+                        );
+                      }),
                   FutureBuilder(
-                      future:futurePlaylist,
+                      future: futurePlaylist,
                       builder: (context, snapshot) {
                         if (snapshot.hasData) {
                           return ListView.builder(
                               itemCount: snapshot.data.length,
-                              itemBuilder: (context,index){
-                                return  PlaylistCard(
+                              itemBuilder: (context, index) {
+                                return PlaylistCard(
                                   image: Random().nextInt(7) + 1,
-                                  playlistName: snapshot.data[index]['playlist_name'],
+                                  playlistName: snapshot.data[index]
+                                      ['playlist_name'],
                                 );
-                              }
-                          );
+                              });
                         } else if (snapshot.hasError) {
-                          return Center(child: Text("${snapshot.error}",));
+                          return Center(
+                              child: Text(
+                            "${snapshot.error}",
+                          ));
                         }
 
                         // By default, show a loading spinner.
-                        return CircularProgressIndicator();
-
-
-                      }
-
-                  ),
+                        return Column(
+                          children: [
+                            Spacer(),
+                            CircularProgressIndicator(),
+                            Spacer(),
+                          ],
+                        );
+                      }),
                 ],
               ),
             ),
           ),
-          
         ],
       ),
     );
   }
 }
-
 
 class SongCard extends StatelessWidget {
   final image;
@@ -157,14 +191,18 @@ class SongCard extends StatelessWidget {
   final String songId;
   final String artistName;
 
-  SongCard({this.image,this.sname,this.songId,this.artistName});
+  SongCard({this.image, this.sname, this.songId, this.artistName});
   @override
   Widget build(BuildContext context) {
     return InkWell(
-      onTap: (){
-        Navigator.push(context, MaterialPageRoute(
-            builder: (context) => PlayPage(songId: songId,artistName: artistName,)
-        ));
+      onTap: () {
+        Navigator.push(
+            context,
+            MaterialPageRoute(
+                builder: (context) => PlayPage(
+                      songId: songId,
+                      artistName: artistName,
+                    )));
       },
       child: Container(
         padding: EdgeInsets.only(top: 5, bottom: 5),
@@ -184,12 +222,12 @@ class SongCard extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
-                    "${sname}",
+                    "$sname",
                     style: TextStyle(
                         color: Colors.white, fontWeight: FontWeight.bold),
                   ),
                   Text(
-                    "${artistName}",
+                    "$artistName",
                     style: TextStyle(color: Colors.white.withOpacity(0.8)),
                   )
                 ],
@@ -197,7 +235,16 @@ class SongCard extends StatelessWidget {
             ),
             Spacer(),
             Column(
-              children: [Icon(Icons.favorite,color: Colors.white,), Text("200")],
+              children: [
+                Icon(
+                  Icons.favorite,
+                  color: Colors.white,
+                ),
+                Text(
+                  "200",
+                  style: TextStyle(color: Colors.white),
+                )
+              ],
             )
           ],
         ),
@@ -211,15 +258,10 @@ class PlaylistCard extends StatelessWidget {
 
   final String playlistName;
 
-  PlaylistCard({this.image,this.playlistName});
+  PlaylistCard({this.image, this.playlistName});
   @override
   Widget build(BuildContext context) {
     return InkWell(
-      // onTap: (){
-      //   Navigator.push(context, MaterialPageRoute(
-      //       builder: (context) => PlayPage(songId: songId,artistName: artistName,)
-      //   ));
-      // },
       child: Container(
         padding: EdgeInsets.only(top: 5, bottom: 5),
         child: Row(
@@ -238,20 +280,25 @@ class PlaylistCard extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
-                    "${playlistName}",
+                    "$playlistName",
                     style: TextStyle(
                         color: Colors.white, fontWeight: FontWeight.bold),
                   ),
-                  // Text(
-                  //   "${artistName}",
-                  //   style: TextStyle(color: Colors.white.withOpacity(0.8)),
-                  // )
                 ],
               ),
             ),
             Spacer(),
             Column(
-              children: [Icon(Icons.favorite,color: Colors.white,), Text("200")],
+              children: [
+                Icon(
+                  Icons.favorite,
+                  color: Colors.white,
+                ),
+                Text(
+                  "200",
+                  style: TextStyle(color: Colors.white),
+                ),
+              ],
             )
           ],
         ),
