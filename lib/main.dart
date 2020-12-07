@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:spotify/landing.dart';
-import 'package:spotify/screens/home_screen.dart';
 import 'package:spotify/service/auth.dart';
 
 void main() {
@@ -14,6 +13,7 @@ class MyApp extends StatelessWidget {
     return Provider<Auth>(
       create: (context) => Auth(),
       child: MaterialApp(
+        debugShowCheckedModeBanner: false,
         home: LandingPage(),
       ),
     );
