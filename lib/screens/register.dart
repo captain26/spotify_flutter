@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:modal_progress_hud/modal_progress_hud.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:provider/provider.dart';
+import 'package:spotify/service/auth.dart';
 
 import '../test.dart';
 import 'login_page.dart';
@@ -17,6 +19,24 @@ class _SignUpPageState extends State<SignUpPage> {
   String email;
   String password;
 
+
+  Future<void> createUser() async{
+    final auth = Provider.of<Auth>(context,listen: false);
+
+    setState(() {
+      showspinner = true;
+    });
+    try {
+      auth.createUserWithEmailPassword(email, password);
+    } catch (e) {
+      print(e);
+    }
+    finally {
+      setState(() {
+        showspinner = false;
+      });
+    }
+  }
   Widget _submitButton() {
     return Container(
       width: MediaQuery.of(context).size.width,
@@ -162,27 +182,7 @@ class _SignUpPageState extends State<SignUpPage> {
                       ),
                       GestureDetector(
                         onTap: () async {
-                          setState(() {
-                            showspinner = true;
-                          });
-                          try {
-                            final newUser =
-                                await _auth.createUserWithEmailAndPassword(
-                                    email: email, password: password);
-
-                            if (newUser != null) {
-                              Navigator.pushAndRemoveUntil(
-                                  context,
-                                  MaterialPageRoute(
-                                      builder: (context) => Test()),
-                                  (Route<dynamic> route) => false);
-                            }
-                          } catch (e) {
-                            print(e);
-                          }
-                          setState(() {
-                            showspinner = false;
-                          });
+                            await createUser();
                         },
                         child: _submitButton(),
                       ),

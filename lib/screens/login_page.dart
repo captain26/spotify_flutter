@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'package:spotify/screens/register.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:modal_progress_hud/modal_progress_hud.dart';
+import 'package:spotify/service/auth.dart';
 
 import '../test.dart';
 
@@ -11,12 +13,26 @@ class LoginPage extends StatefulWidget {
 }
 
 class _LoginPageState extends State<LoginPage> {
-  final _auth = FirebaseAuth.instance;
   bool showspinner = false;
 
   String email;
   String password;
 
+  Future<void> signIn() async {
+    final auth = Provider.of<Auth>(context);
+    setState(() {
+      showspinner = true;
+    });
+    try {
+      await auth.signinWithEmailPassword(email, password);
+    } catch (e) {
+      print(e);
+    }finally {
+      setState(() {
+        showspinner = false;
+      });
+    }
+  }
   Widget _submitButton() {
     return Container(
       width: MediaQuery.of(context).size.width,
@@ -191,25 +207,7 @@ class _LoginPageState extends State<LoginPage> {
                     SizedBox(height: 20),
                     GestureDetector(
                       onTap: () async {
-                        setState(() {
-                          showspinner = true;
-                        });
-                        try {
-                          final user = await _auth.signInWithEmailAndPassword(
-                              email: email, password: password);
-
-                          if (user != null) {
-                            Navigator.pushAndRemoveUntil(
-                                context,
-                                MaterialPageRoute(builder: (context) => Test()),
-                                (Route<dynamic> route) => false);
-                          }
-                        } catch (e) {
-                          print(e);
-                        }
-                        setState(() {
-                          showspinner = false;
-                        });
+                        await signIn();
                       },
                       child: _submitButton(),
                     ),

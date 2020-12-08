@@ -1,4 +1,5 @@
 import 'package:firebase_auth/firebase_auth.dart';
+import 'dart:async';
 
 class User {
   final String uid;
@@ -29,4 +30,19 @@ class Auth {
   Future<void> signOut() async{
     await FirebaseAuth.instance.signOut();
   }
+
+  Future<User> signinWithEmailPassword(String email, String password) async{
+    final authResult = await FirebaseAuth.instance.signInWithEmailAndPassword(
+        email: email, password: password);
+
+    return _userFromFirebase(authResult.user);
+  }
+
+  Future<User> createUserWithEmailPassword(String email, String password) async {
+    final authResult = await FirebaseAuth.instance.createUserWithEmailAndPassword(
+        email: email, password: password);
+    return _userFromFirebase(authResult.user);
+
+  }
+
 }

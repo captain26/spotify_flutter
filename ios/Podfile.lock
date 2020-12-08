@@ -123,7 +123,7 @@ EXTERNAL SOURCES:
 
 SPEC CHECKSUMS:
   audio_manager: 59466b2ea5552ebdcba8106796f09b9357ef12e0
-  audioplayers: 84f968cea3f2deab00ec4f8ff53358b3c0b3992c
+  audioplayers: 455322b54050b30ea4b1af7cd9e9d105f74efa8c
   Firebase: c23a36d9e4cdf7877dfcba8dd0c58add66358999
   firebase_auth: d99b993c1405096e66c58211b1cd956c23eed1c5
   firebase_core: 335c02abd48672b7c83c683df833d0488a72e73e
