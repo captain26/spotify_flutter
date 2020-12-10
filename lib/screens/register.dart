@@ -1,10 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:modal_progress_hud/modal_progress_hud.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:provider/provider.dart';
 import 'package:spotify/service/auth.dart';
 
-import '../test.dart';
 import 'login_page.dart';
 
 class SignUpPage extends StatefulWidget {
@@ -13,15 +11,13 @@ class SignUpPage extends StatefulWidget {
 }
 
 class _SignUpPageState extends State<SignUpPage> {
-  final _auth = FirebaseAuth.instance;
   bool showspinner = false;
 
   String email;
   String password;
 
-
-  Future<void> createUser() async{
-    final auth = Provider.of<Auth>(context,listen: false);
+  Future<void> createUser() async {
+    final auth = Provider.of<Auth>(context, listen: false);
 
     setState(() {
       showspinner = true;
@@ -30,13 +26,13 @@ class _SignUpPageState extends State<SignUpPage> {
       auth.createUserWithEmailPassword(email, password);
     } catch (e) {
       print(e);
-    }
-    finally {
+    } finally {
       setState(() {
         showspinner = false;
       });
     }
   }
+
   Widget _submitButton() {
     return Container(
       width: MediaQuery.of(context).size.width,
@@ -182,7 +178,7 @@ class _SignUpPageState extends State<SignUpPage> {
                       ),
                       GestureDetector(
                         onTap: () async {
-                            await createUser();
+                          await createUser();
                         },
                         child: _submitButton(),
                       ),
