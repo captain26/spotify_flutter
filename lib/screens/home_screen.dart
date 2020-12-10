@@ -19,18 +19,7 @@
 //   var tabbarController;
 //   var selectIndex = 0;
 //
-//   Future<void> addingUser() async {
-//     var url = 'https://ancient-spire-46177.herokuapp.com/tracks/user';
-//     Map<String, String> header = new Map();
-//
-//     header['Content-Type'] = 'application/json';
-//     var body = json.encode({
-//       'first_name': 'vasu bansal',
-//       '_id': widget.userId.toString(),
-//     });
-//     var response = await http.post(url, headers: header, body: body);
-//     print('Response body: ${response.body}');
-//   }
+
 //
 //   @override
 //   void initState() {
