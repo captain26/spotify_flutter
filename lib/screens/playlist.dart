@@ -166,8 +166,8 @@ class _MyPlaylistState extends State<MyPlaylist> {
             },
           ),
         ],
-        title: Text('Spotify',
-            style: GoogleFonts.raleway(textStyle: TextStyle(fontSize: 40))),
+        title: Text('My Playlists',
+            style: GoogleFonts.raleway(textStyle: TextStyle(fontSize: 30))),
       ),
       body: FutureBuilder(
           future: futurePlaylist,
@@ -219,9 +219,8 @@ class PlaylistCard extends StatelessWidget {
         Navigator.push(
           context,
           MaterialPageRoute(
-            builder: (context) => PlaylistSongs(
-              PlaylistId: id,
-            ),
+            builder: (context) =>
+                PlaylistSongs(PlaylistId: id, PlaylistName: playlistName),
           ),
         );
       },

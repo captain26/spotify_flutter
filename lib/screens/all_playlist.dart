@@ -85,6 +85,7 @@ class PlaylistCard extends StatelessWidget {
           MaterialPageRoute(
             builder: (context) => PlaylistSongs(
               PlaylistId: id,
+              PlaylistName: playlistName,
             ),
           ),
         );

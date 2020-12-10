@@ -8,7 +8,8 @@ import 'package:http/http.dart' as http;
 
 class PlaylistSongs extends StatefulWidget {
   final PlaylistId;
-  PlaylistSongs({this.PlaylistId});
+  final PlaylistName;
+  PlaylistSongs({this.PlaylistId, this.PlaylistName});
   @override
   _PlaylistSongsState createState() => _PlaylistSongsState();
 }
@@ -45,8 +46,8 @@ class _PlaylistSongsState extends State<PlaylistSongs> {
         appBar: AppBar(
           elevation: 0.0,
           backgroundColor: Colors.black54,
-          title: Text('Spotify',
-              style: GoogleFonts.raleway(textStyle: TextStyle(fontSize: 40))),
+          title: Text('${widget.PlaylistName}',
+              style: GoogleFonts.raleway(textStyle: TextStyle(fontSize: 30))),
         ),
         body: FutureBuilder(
             future: futureSong,

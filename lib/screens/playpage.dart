@@ -8,13 +8,12 @@ class PlayPage extends StatefulWidget {
   final String songId;
   final String songName;
   final String artistName;
-  PlayPage({this.songId,this.songName,this.artistName});
+  PlayPage({this.songId, this.songName, this.artistName});
   @override
   _PlayPageState createState() => _PlayPageState();
 }
 
 class _PlayPageState extends State<PlayPage> {
-
   AudioPlayer _player;
   AudioCache cache;
 
@@ -42,15 +41,16 @@ class _PlayPageState extends State<PlayPage> {
       });
     };
   }
+
   @override
   void dispose() {
     // TODO: implement dispose
     _player.dispose();
   }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-
       body: Container(
         padding: EdgeInsets.all(20),
         color: Colors.black,
@@ -117,10 +117,10 @@ class _PlayPageState extends State<PlayPage> {
                     // getAudio();
                   },
                   child: Icon(
-                      playing == false
-                                ? Icons.play_circle_outline
-                                : Icons.pause_circle_outline,
-                            size: 70,
+                    playing == false
+                        ? Icons.play_circle_outline
+                        : Icons.pause_circle_outline,
+                    size: 70,
                     color: Colors.white,
                   ),
                 ),
@@ -169,16 +169,16 @@ class _PlayPageState extends State<PlayPage> {
   //       position = p;
   //     });
   //   };
-    // audioPlayer.onDurationChanged.listen((Duration dd) {
-    //   setState(() {
-    //     duration = dd;
-    //   });
-    // });
-    // audioPlayer.onAudioPositionChanged.listen((Duration dd) {
-    //   setState(() {
-    //     position = dd;
-    //   });
-    // });
+  // audioPlayer.onDurationChanged.listen((Duration dd) {
+  //   setState(() {
+  //     duration = dd;
+  //   });
+  // });
+  // audioPlayer.onAudioPositionChanged.listen((Duration dd) {
+  //   setState(() {
+  //     position = dd;
+  //   });
+  // });
   Widget slider() {
     return Container(
       width: 300.0,
@@ -192,14 +192,9 @@ class _PlayPageState extends State<PlayPage> {
           }),
     );
   }
+
   void seekToSec(int sec) {
     Duration newPos = Duration(seconds: sec);
     _player.seek(newPos);
   }
-
 }
-
-
-
-
-
