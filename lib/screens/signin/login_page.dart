@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:spotify/screens/register.dart';
+import 'package:spotify/screens/signin/register.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:modal_progress_hud/modal_progress_hud.dart';
 import 'package:spotify/service/auth.dart';
 
-import '../test.dart';
+import '../../test.dart';
 
 class LoginPage extends StatefulWidget {
   @override
@@ -27,30 +27,34 @@ class _LoginPageState extends State<LoginPage> {
       await auth.signinWithEmailPassword(email, password);
     } catch (e) {
       print(e);
-    }finally {
+    } finally {
       setState(() {
         showspinner = false;
       });
     }
   }
+
   Widget _submitButton() {
     return Container(
       width: MediaQuery.of(context).size.width,
       padding: EdgeInsets.symmetric(vertical: 15),
       alignment: Alignment.center,
       decoration: BoxDecoration(
-          borderRadius: BorderRadius.all(Radius.circular(5)),
-          boxShadow: <BoxShadow>[
-            BoxShadow(
-                color: Colors.grey.shade200,
-                offset: Offset(2, 4),
-                blurRadius: 5,
-                spreadRadius: 2)
-          ],
-          gradient: LinearGradient(
-              begin: Alignment.centerLeft,
-              end: Alignment.centerRight,
-              colors: [Color(0xfffbb448), Color(0xfff7892b)])),
+        borderRadius: BorderRadius.all(Radius.circular(5)),
+        boxShadow: <BoxShadow>[
+          BoxShadow(
+              color: Colors.grey.shade200,
+              offset: Offset(2, 4),
+              blurRadius: 5,
+              spreadRadius: 2)
+        ],
+        gradient: LinearGradient(
+
+          begin: Alignment.centerLeft,
+          end: Alignment.centerRight,
+          colors: [Color(0xfffbb448), Color(0xfff7892b)],
+        ),
+      ),
       child: Text(
         'Login',
         style: TextStyle(fontSize: 20, color: Colors.white),

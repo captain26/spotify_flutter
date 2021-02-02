@@ -1,10 +1,15 @@
 import 'dart:convert';
 import 'dart:math';
 
+import 'package:audioplayers/audioplayers.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 
 class Playlist extends StatefulWidget {
+
+  AudioPlayer audioPlayer;
+
+  Playlist({this.audioPlayer});
   @override
   _PlaylistState createState() => _PlaylistState();
 }

@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:spotify/screens/login_page.dart';
+import 'package:sliding_up_panel/sliding_up_panel.dart';
+import 'package:spotify/model/stream_model.dart';
+import 'package:spotify/screens/signin/login_page.dart';
 import 'package:spotify/service/auth.dart';
 import 'package:spotify/test.dart';
 
@@ -18,9 +20,14 @@ class LandingPage extends StatelessWidget {
             return LoginPage();
           }
           final uid = user.uid;
+          print('working');
           print(uid);
           // return HomeScreen(userId: uid);
-          return Test();
+          return Provider<StreamModel>(
+              create: (context) => StreamModel(),
+              child: Test(userId: uid)
+          );
+
         }else {
           return Scaffold(
             body: Center(

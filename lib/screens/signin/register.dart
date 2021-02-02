@@ -4,7 +4,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:provider/provider.dart';
 import 'package:spotify/service/auth.dart';
 
-import '../test.dart';
+import '../../test.dart';
 import 'login_page.dart';
 
 class SignUpPage extends StatefulWidget {
@@ -54,7 +54,8 @@ class _SignUpPageState extends State<SignUpPage> {
           gradient: LinearGradient(
               begin: Alignment.centerLeft,
               end: Alignment.centerRight,
-              colors: [Color(0xfffbb448), Color(0xfff7892b)])),
+              colors: [Color(0xfffbb448), Color(0xfff7892b)]
+              )),
       child: Text(
         'Register Now',
         style: TextStyle(fontSize: 20, color: Colors.white),
