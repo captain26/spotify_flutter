@@ -27,14 +27,13 @@ class Test extends StatefulWidget {
   _TestState createState() => _TestState();
 }
 
-class _TestState extends State<Test> with SingleTickerProviderStateMixin, ChangeNotifier {
-
-
+class _TestState extends State<Test>
+    with SingleTickerProviderStateMixin, ChangeNotifier {
   final _auth = FirebaseAuth.instance;
   int _selectedIndex = 0;
   AudioPlayer audioPlayer = new AudioPlayer();
 
-  List<Widget> screens = [Songs(),Playlist()];
+  List<Widget> screens = [Songs(), Playlist()];
   var tabbarController;
   // var selectIndex = 0;
   Future<void> addingUser() async {
@@ -61,7 +60,6 @@ class _TestState extends State<Test> with SingleTickerProviderStateMixin, Change
     }
   }
 
-
   @override
   Widget build(BuildContext context) {
     final model = Provider.of<StreamModel>(context, listen: false);
@@ -72,19 +70,48 @@ class _TestState extends State<Test> with SingleTickerProviderStateMixin, Change
         return ChangeNotifierProvider(
           create: (context) => checkBool(),
           child: SlidingUpPanel(
-            panel: PlayPage(songInfo: snapshot.data,),
+            panel: snapshot.data == null
+                ? Container()
+                : PlayPage(
+                    songInfo: snapshot.data,
+                  ),
             minHeight: 60,
             maxHeight: MediaQuery.of(context).size.height,
             backdropEnabled: true,
             backdropOpacity: 0.5,
             parallaxEnabled: true,
-            collapsed: BottomPanel(songInfo: snapshot.data,),
+            collapsed: snapshot.data == null
+                ? Container(
+                    color: Colors.black,
+                  )
+                : BottomPanel(songInfo: snapshot.data),
             body: Scaffold(
               backgroundColor: Colors.black54,
               appBar: AppBar(
                 elevation: 0.0,
                 backgroundColor: Colors.black54,
                 actions: [
+                  GestureDetector(
+                    onTap: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) =>
+                              MyPlaylist(userId: widget.userId),
+                        ),
+                      );
+                    },
+                    child: Align(
+                      alignment: Alignment.center,
+                      child: Text(
+                        'My Playlist',
+                        style: TextStyle(color: Colors.white),
+                      ),
+                    ),
+                  ),
+                  SizedBox(
+                    width: 20,
+                  ),
                   GestureDetector(
                     child: Align(
                       alignment: Alignment.center,
@@ -95,19 +122,19 @@ class _TestState extends State<Test> with SingleTickerProviderStateMixin, Change
                         ),
                       ),
                     ),
-                    onTap:   () async {
+                    onTap: () async {
                       await Provider.of<Auth>(context, listen: false);
                     },
                   ),
                 ],
-                title: Text(
-                    'Spotify',
-                    style: GoogleFonts.raleway(textStyle: TextStyle(fontSize: 40))
-                  // style: Theme.of(context)
-                  //     .textTheme
-                  //     .headline4
-                  //     .copyWith(fontWeight: FontWeight.bold, color: Colors.white),
-                ),
+                title: Text('Spotify',
+                    style:
+                        GoogleFonts.raleway(textStyle: TextStyle(fontSize: 40))
+                    // style: Theme.of(context)
+                    //     .textTheme
+                    //     .headline4
+                    //     .copyWith(fontWeight: FontWeight.bold, color: Colors.white),
+                    ),
               ),
               body: Column(
                 children: [
@@ -130,37 +157,41 @@ class _TestState extends State<Test> with SingleTickerProviderStateMixin, Change
                       padding: const EdgeInsets.only(top: 25.0),
                       child: Row(
                         crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [_buildNavigationRail(), screens[_selectedIndex]],
+                        children: [
+                          _buildNavigationRail(),
+                          screens[_selectedIndex],
+                        ],
                       ),
                     ),
                   ),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                    children: [
-                      GestureDetector(
-                        onTap: () {
-                          Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                              builder: (context) => MyPlaylist(userId: widget.userId),
-                            ),
-                          );
-                        },
-                        child: Text(
-                          'My Playlist',
-                          style: TextStyle(color: Colors.white),
-                        ),
-                      ),
-                      Text(
-                        'Search',
-                        style: TextStyle(color: Colors.white),
-                      ),
-                      Text(
-                        'Settings',
-                        style: TextStyle(color: Colors.white),
-                      ),
-                    ],
-                  ),
+                  // Row(
+                  //   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                  //   children: [
+                  //     GestureDetector(
+                  //       onTap: () {
+                  //         Navigator.push(
+                  //           context,
+                  //           MaterialPageRoute(
+                  //             builder: (context) =>
+                  //                 MyPlaylist(userId: widget.userId),
+                  //           ),
+                  //         );
+                  //       },
+                  //       child: Text(
+                  //         'My Playlist',
+                  //         style: TextStyle(color: Colors.white),
+                  //       ),
+                  //     ),
+                  //     Text(
+                  //       'Search',
+                  //       style: TextStyle(color: Colors.white),
+                  //     ),
+                  //     Text(
+                  //       'Settings',
+                  //       style: TextStyle(color: Colors.white),
+                  //     ),
+                  //   ],
+                  // ),
                 ],
               ),
             ),
@@ -169,10 +200,11 @@ class _TestState extends State<Test> with SingleTickerProviderStateMixin, Change
       },
     );
   }
+
   Widget _buildNavigationRail() {
     return NavigationRail(
       backgroundColor: Colors.black54,
-        minWidth: 1.0 ,
+      minWidth: 1.0,
       selectedIndex: _selectedIndex,
       onDestinationSelected: (int index) {
         setState(() {
@@ -181,10 +213,12 @@ class _TestState extends State<Test> with SingleTickerProviderStateMixin, Change
       },
       groupAlignment: -0.1,
       labelType: NavigationRailLabelType.all,
-      selectedLabelTextStyle:
-          GoogleFonts.raleway(textStyle: TextStyle(color: Colors.red , fontWeight: FontWeight.bold,fontSize: 15) ),
-      unselectedLabelTextStyle:
-      GoogleFonts.raleway(textStyle: TextStyle(color: Colors.grey , fontWeight: FontWeight.bold,fontSize: 12) ),
+      selectedLabelTextStyle: GoogleFonts.raleway(
+          textStyle: TextStyle(
+              color: Colors.red, fontWeight: FontWeight.bold, fontSize: 15)),
+      unselectedLabelTextStyle: GoogleFonts.raleway(
+          textStyle: TextStyle(
+              color: Colors.grey, fontWeight: FontWeight.bold, fontSize: 12)),
       // leading: Column(
       //   children: [
       //     Icon(
@@ -226,10 +260,4 @@ class _TestState extends State<Test> with SingleTickerProviderStateMixin, Change
       ],
     );
   }
-
 }
-
-
-
-
-

@@ -114,6 +114,7 @@ class _MyPlaylistState extends State<MyPlaylist> {
                       print('connected');
                       addingPlaylist();
                       Navigator.pop(context);
+                      Navigator.pop(context);
                     }
                   } on SocketException catch (_) {
                     print('not connected');

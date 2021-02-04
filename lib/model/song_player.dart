@@ -4,20 +4,18 @@ import 'package:flutter/material.dart';
 class SongPlayer {
   AudioPlayer audioPlayer = new AudioPlayer();
   bool playing = false;
-
-
 }
 
 class checkBool with ChangeNotifier {
   bool playing = false;
 
   void tryBool() {
-    if(playing){
+    if (playing) {
       playing = false;
       notifyListeners();
-  }else{
+    } else {
       playing = true;
       notifyListeners();
+    }
   }
-}
 }

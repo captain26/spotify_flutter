@@ -15,15 +15,13 @@ class PlayPage extends StatefulWidget {
   _PlayPageState createState() => _PlayPageState();
 }
 
-class _PlayPageState extends State<PlayPage>{
-
+class _PlayPageState extends State<PlayPage> {
   AudioPlayer audioPlayer = new AudioPlayer();
 
   Duration position = new Duration();
   Duration duration = new Duration();
 
-
-
+  @override
   void initState() {
     // TODO: implement initState
     super.initState();
@@ -31,8 +29,7 @@ class _PlayPageState extends State<PlayPage>{
 
   @override
   void dispose() {
-    // TODO: implement dispose
-
+    super.dispose();
   }
 
   @override
@@ -44,7 +41,6 @@ class _PlayPageState extends State<PlayPage>{
         color: Colors.white,
         child: ListView(
           children: [
-
             Padding(
               padding: const EdgeInsets.all(30.0),
               child: Hero(
@@ -98,25 +94,22 @@ class _PlayPageState extends State<PlayPage>{
                 SizedBox(
                   width: 20,
                 ),
-                Consumer<checkBool>(
-                  builder: (context,myCheck,child) {
-                    return InkWell(
-                      onTap: () async {
-                        print(widget.songInfo.uid);
-                        await getAudio();
-                        myCheck.tryBool();
-                      },
-                      child: Icon(
-                        myCheck.playing == false
-                            ? Icons.play_circle_outline
-                            : Icons.pause_circle_outline,
-                        size: 70,
-                        color: Colors.black54,
-                      ),
-                    );
-                  }
-                ),
-
+                Consumer<checkBool>(builder: (context, myCheck, child) {
+                  return InkWell(
+                    onTap: () async {
+                      print(widget.songInfo.uid);
+                      await getAudio();
+                      myCheck.tryBool();
+                    },
+                    child: Icon(
+                      myCheck.playing == false
+                          ? Icons.play_circle_outline
+                          : Icons.pause_circle_outline,
+                      size: 70,
+                      color: Colors.black54,
+                    ),
+                  );
+                }),
                 SizedBox(
                   width: 20,
                 ),
@@ -136,9 +129,9 @@ class _PlayPageState extends State<PlayPage>{
   void getAudio() async {
     String uid = widget.songInfo.uid;
     final player = Provider.of<SongPlayer>(context);
-    if(uid == null){
+    if (uid == null) {
       return null;
-    }else {
+    } else {
       var url = "https://ancient-spire-46177.herokuapp.com/tracks/${uid}";
       // var url = "https://assets.mixkit.co/music/preview/mixkit-trip-hop-vibes-149.mp3";
       if (player.playing) {
@@ -148,7 +141,6 @@ class _PlayPageState extends State<PlayPage>{
             player.playing = false;
           });
         }
-
       } else {
         var res = await player.audioPlayer.play(url, isLocal: true);
         if (res == 1) {
@@ -156,42 +148,36 @@ class _PlayPageState extends State<PlayPage>{
             player.playing = true;
           });
         }
-
       }
-     player.audioPlayer.durationHandler = (d) {
-            setState(() {
-             duration = d;
-            });
-           };
-      player.audioPlayer.positionHandler = (p){
+      player.audioPlayer.durationHandler = (d) {
+        setState(() {
+          duration = d;
+        });
+      };
+      player.audioPlayer.positionHandler = (p) {
         setState(() {
           position = p;
         });
       };
     }
-
-
-
   }
-  Widget slider(){
+
+  Widget slider() {
     return Slider.adaptive(
         min: 0.0,
-        value:position.inSeconds.toDouble(),
+        value: position.inSeconds.toDouble(),
         max: 60.0,
-        onChanged: (value){
+        onChanged: (value) {
           setState(() {
-              seekToSec(value.toInt());
+            seekToSec(value.toInt());
           });
-        }
-    );
+        });
   }
-  void seekToSec(int sec){
+
+  void seekToSec(int sec) {
     final player = Provider.of<SongPlayer>(context);
 
     Duration newPos = Duration(seconds: sec);
-      player.audioPlayer.seek(newPos);
+    player.audioPlayer.seek(newPos);
   }
-
-  }
-
-
+}
