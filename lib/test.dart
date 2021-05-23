@@ -1,10 +1,10 @@
 import 'dart:convert';
-import 'dart:math';
 
 import 'package:audioplayers/audioplayers.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
+<<<<<<< HEAD
 import 'package:sliding_up_panel/sliding_up_panel.dart';
 import 'package:spotify/model/song_model.dart';
 import 'package:spotify/model/song_player.dart';
@@ -18,6 +18,14 @@ import 'package:spotify/screens/playlist.dart';
 import 'package:spotify/screens/playpage.dart';
 import 'package:spotify/service/auth.dart';
 import 'package:http/http.dart' as http;
+=======
+import 'package:spotify/screens/all_playlist.dart';
+import 'package:spotify/screens/all_songs.dart';
+import 'package:spotify/screens/playlist.dart';
+import 'package:http/http.dart' as http;
+
+import 'service/auth.dart';
+>>>>>>> dcbfd0b90d10dc2d87f505dcf6541c16640e348e
 
 class Test extends StatefulWidget {
   final userId;
@@ -27,20 +35,54 @@ class Test extends StatefulWidget {
   _TestState createState() => _TestState();
 }
 
+<<<<<<< HEAD
 class _TestState extends State<Test> with SingleTickerProviderStateMixin, ChangeNotifier {
 
 
   final _auth = FirebaseAuth.instance;
   int _selectedIndex = 0;
   AudioPlayer audioPlayer = new AudioPlayer();
+=======
+class _TestState extends State<Test> with SingleTickerProviderStateMixin {
+  @override
+  void initState() {
+    super.initState();
+    // addingUser();
+  }
 
-  List<Widget> screens = [Songs(),Playlist()];
+  int _selectedIndex = 0;
+  Future<void> addingUser() async {
+    var url = 'https://ancient-spire-46177.herokuapp.com/tracks/user';
+    Map<String, String> header = new Map();
+>>>>>>> dcbfd0b90d10dc2d87f505dcf6541c16640e348e
+
+    header['Content-Type'] = 'application/json';
+    var body = json.encode({
+      'first_name': 'vasu bansal',
+      '_id': widget.userId.toString(),
+    });
+    var response = await http.post(url, headers: header, body: body);
+    print('Response body: ${response.body}');
+  }
+
+  Future<void> signOut() async {
+    final auth = Provider.of<Auth>(context, listen: false);
+
+    try {
+      auth.signOut();
+    } catch (e) {
+      print(e);
+    }
+  }
+
+  List<Widget> screens = [Songs(), Playlist()];
   var tabbarController;
   // var selectIndex = 0;
   Future<void> addingUser() async {
     var url = 'https://ancient-spire-46177.herokuapp.com/tracks/user';
     Map<String, String> header = new Map();
 
+<<<<<<< HEAD
     header['Content-Type'] = 'application/json';
     var body = json.encode({
       'first_name': 'vasu bansal',
@@ -62,6 +104,9 @@ class _TestState extends State<Test> with SingleTickerProviderStateMixin, Change
   }
 
 
+=======
+  List<dynamic> _list;
+>>>>>>> dcbfd0b90d10dc2d87f505dcf6541c16640e348e
   @override
   Widget build(BuildContext context) {
     final model = Provider.of<StreamModel>(context, listen: false);
@@ -109,6 +154,7 @@ class _TestState extends State<Test> with SingleTickerProviderStateMixin, Change
                   //     .copyWith(fontWeight: FontWeight.bold, color: Colors.white),
                 ),
               ),
+<<<<<<< HEAD
               body: Column(
                 children: [
                   // TabBar(
@@ -167,12 +213,68 @@ class _TestState extends State<Test> with SingleTickerProviderStateMixin, Change
           ),
         );
       },
+=======
+            ),
+            onTap: () {
+              signOut();
+            },
+          ),
+        ],
+        title: Text(
+          'Spotify',
+          style: GoogleFonts.raleway(
+            textStyle: TextStyle(fontSize: 40),
+          ),
+        ),
+      ),
+      body: Column(
+        children: [
+          Expanded(
+            child: Padding(
+              padding: const EdgeInsets.only(top: 25.0),
+              child: Row(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [_buildNavigationRail(), screens[_selectedIndex]],
+              ),
+            ),
+          ),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+            children: [
+              GestureDetector(
+                onTap: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => MyPlaylist(userId: widget.userId),
+                    ),
+                  );
+                },
+                child: Text(
+                  'My Playlist',
+                  style: TextStyle(color: Colors.white),
+                ),
+              ),
+              Text(
+                'Search',
+                style: TextStyle(color: Colors.white),
+              ),
+              Text(
+                'Settings',
+                style: TextStyle(color: Colors.white),
+              ),
+            ],
+          ),
+        ],
+      ),
+>>>>>>> dcbfd0b90d10dc2d87f505dcf6541c16640e348e
     );
   }
+
   Widget _buildNavigationRail() {
     return NavigationRail(
       backgroundColor: Colors.black54,
-        minWidth: 1.0 ,
+      minWidth: 1.0,
       selectedIndex: _selectedIndex,
       onDestinationSelected: (int index) {
         setState(() {
@@ -181,27 +283,12 @@ class _TestState extends State<Test> with SingleTickerProviderStateMixin, Change
       },
       groupAlignment: -0.1,
       labelType: NavigationRailLabelType.all,
-      selectedLabelTextStyle:
-          GoogleFonts.raleway(textStyle: TextStyle(color: Colors.red , fontWeight: FontWeight.bold,fontSize: 15) ),
-      unselectedLabelTextStyle:
-      GoogleFonts.raleway(textStyle: TextStyle(color: Colors.grey , fontWeight: FontWeight.bold,fontSize: 12) ),
-      // leading: Column(
-      //   children: [
-      //     Icon(
-      //       Icons.playlist_play,
-      //       color: Color(0xff0968B0),
-      //     ),
-      //     SizedBox(height: 5.0),
-      //     RotatedBox(
-      //       quarterTurns: -1,
-      //       child: Text(
-      //         'Your playlists',
-      //         style:
-      //         TextStyle(color: Color(0xff0968B0), fontWeight: FontWeight.bold),
-      //       ),
-      //     )
-      //   ],
-      // ),
+      selectedLabelTextStyle: GoogleFonts.raleway(
+          textStyle: TextStyle(
+              color: Colors.red, fontWeight: FontWeight.bold, fontSize: 15)),
+      unselectedLabelTextStyle: GoogleFonts.raleway(
+          textStyle: TextStyle(
+              color: Colors.grey, fontWeight: FontWeight.bold, fontSize: 12)),
       destinations: [
         NavigationRailDestination(
           icon: SizedBox.shrink(),
@@ -226,10 +313,4 @@ class _TestState extends State<Test> with SingleTickerProviderStateMixin, Change
       ],
     );
   }
-
 }
-
-
-
-
-

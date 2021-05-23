@@ -4,6 +4,7 @@ import 'dart:math';
 import 'package:audioplayers/audioplayers.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
+import 'package:spotify/screens/playlist_song.dart';
 
 class Playlist extends StatefulWidget {
 
@@ -31,6 +32,7 @@ class _PlaylistState extends State<Playlist> {
       throw Exception('Failed to load album');
     }
   }
+
   void initState() {
     super.initState();
     futurePlaylist = fetchPlaylist();
@@ -38,7 +40,7 @@ class _PlaylistState extends State<Playlist> {
 
   @override
   Widget build(BuildContext context) {
-    return  Expanded(
+    return Expanded(
       child: FutureBuilder(
           future: futurePlaylist,
           builder: (context, snapshot) {
@@ -47,16 +49,16 @@ class _PlaylistState extends State<Playlist> {
                   itemCount: snapshot.data.length,
                   itemBuilder: (context, index) {
                     return PlaylistCard(
+                      id: snapshot.data[index]['_id'],
                       image: Random().nextInt(7) + 1,
-                      playlistName: snapshot.data[index]
-                      ['playlist_name'],
+                      playlistName: snapshot.data[index]['playlist_name'],
                     );
                   });
             } else if (snapshot.hasError) {
               return Center(
                   child: Text(
-                    "${snapshot.error}",
-                  ));
+                "${snapshot.error}",
+              ));
             }
 
             // By default, show a loading spinner.
@@ -72,18 +74,27 @@ class _PlaylistState extends State<Playlist> {
   }
 }
 
-
-
-
 class PlaylistCard extends StatelessWidget {
   final image;
+  final id;
 
   final String playlistName;
 
-  PlaylistCard({this.image, this.playlistName});
+  PlaylistCard({this.id, this.image, this.playlistName});
   @override
   Widget build(BuildContext context) {
     return InkWell(
+      onTap: () {
+        Navigator.push(
+          context,
+          MaterialPageRoute(
+            builder: (context) => PlaylistSongs(
+              PlaylistId: id,
+              PlaylistName: playlistName,
+            ),
+          ),
+        );
+      },
       child: Container(
         padding: EdgeInsets.only(top: 5, bottom: 5),
         child: Row(
@@ -128,4 +139,3 @@ class PlaylistCard extends StatelessWidget {
     );
   }
 }
-

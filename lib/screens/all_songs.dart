@@ -1,7 +1,10 @@
 import 'dart:convert';
 import 'dart:math';
 
+<<<<<<< HEAD
 import 'package:audioplayers/audioplayers.dart';
+=======
+>>>>>>> dcbfd0b90d10dc2d87f505dcf6541c16640e348e
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -10,7 +13,6 @@ import 'package:spotify/model/song_model.dart';
 import 'package:spotify/model/stream_model.dart';
 import 'package:spotify/screens/playpage.dart';
 import 'package:http/http.dart' as http;
-
 
 class Songs extends StatefulWidget {
   AudioPlayer audioPlayer;
@@ -24,8 +26,12 @@ class _SongsState extends State<Songs> {
   FirebaseUser loggedInUser;
   final _auth = FirebaseAuth.instance;
 
+<<<<<<< HEAD
 
+=======
+>>>>>>> dcbfd0b90d10dc2d87f505dcf6541c16640e348e
   Future<List<dynamic>> futureSong;
+
   Future<List<dynamic>> fetchSong() async {
     final response = await http
         .get("https://ancient-spire-46177.herokuapp.com/tracks/all/tracks");
@@ -41,6 +47,10 @@ class _SongsState extends State<Songs> {
       throw Exception('Failed to load album');
     }
   }
+<<<<<<< HEAD
+=======
+
+>>>>>>> dcbfd0b90d10dc2d87f505dcf6541c16640e348e
   void getCurrentUser() async {
     try {
       final user = await _auth.currentUser();
@@ -51,14 +61,20 @@ class _SongsState extends State<Songs> {
       print(e);
     }
   }
+<<<<<<< HEAD
+=======
+
+>>>>>>> dcbfd0b90d10dc2d87f505dcf6541c16640e348e
   @override
   void initState() {
     super.initState();
+    getCurrentUser();
     futureSong = fetchSong();
   }
 
   @override
   Widget build(BuildContext context) {
+<<<<<<< HEAD
     Size size = MediaQuery.of(context).size;
     return  Expanded(
         child: FutureBuilder(
@@ -97,6 +113,41 @@ class _SongsState extends State<Songs> {
             }),
       );
 
+=======
+    return Expanded(
+      child: FutureBuilder(
+          future: futureSong,
+          builder: (context, snapshot) {
+            if (snapshot.hasData) {
+              return ListView.builder(
+                  itemCount: snapshot.data.length,
+                  itemBuilder: (context, index) {
+                    return SongCard(
+                      image: Random().nextInt(7) + 1,
+                      sname: snapshot.data[index]['name'],
+                      userId: loggedInUser.uid,
+                      id: snapshot.data[index]['_id'],
+                      songId: snapshot.data[index]['track'],
+                      artistName: snapshot.data[index]['artist_name'],
+                    );
+                  });
+            } else if (snapshot.hasError) {
+              return Center(
+                  child: Text(
+                "${snapshot.error}",
+              ));
+            }
+            // By default, show a loading spinner.
+            return Column(
+              children: [
+                Spacer(),
+                CircularProgressIndicator(),
+                Spacer(),
+              ],
+            );
+          }),
+    );
+>>>>>>> dcbfd0b90d10dc2d87f505dcf6541c16640e348e
   }
 }
 
@@ -110,12 +161,27 @@ class SongCard extends StatelessWidget {
   final id;
   final userId;
 
+<<<<<<< HEAD
   SongCard({this.image, this.sname, this.songId, this.artistName,this.id,this.userId});
+=======
+  SongCard(
+      {this.image,
+      this.sname,
+      this.userId,
+      this.id,
+      this.songId,
+      this.artistName});
+
+>>>>>>> dcbfd0b90d10dc2d87f505dcf6541c16640e348e
   Future<List<dynamic>> futurePlaylist;
 
   Future<List<dynamic>> fetchPlaylist() async {
     final response = await http
+<<<<<<< HEAD
         .get("https://ancient-spire-46177.herokuapp.com/tracks/myplaylist/$userId");
+=======
+        .get("https://spotify412.herokuapp.com/tracks/myplaylist/$userId");
+>>>>>>> dcbfd0b90d10dc2d87f505dcf6541c16640e348e
     if (response.statusCode == 200) {
       // If the server did return a 200 OK response,
       // then parse the JSON.
@@ -154,8 +220,13 @@ class SongCard extends StatelessWidget {
               } else if (snapshot.hasError) {
                 return Center(
                     child: Text(
+<<<<<<< HEAD
                       "${snapshot.error}",
                     ));
+=======
+                  "${snapshot.error}",
+                ));
+>>>>>>> dcbfd0b90d10dc2d87f505dcf6541c16640e348e
               }
 
               // By default, show a loading spinner.
@@ -181,6 +252,7 @@ class SongCard extends StatelessWidget {
     final model = Provider.of<StreamModel>(context,listen: false);
     return InkWell(
       onTap: () {
+<<<<<<< HEAD
         model.inString.add(Song(uid: songId,Name: sname,Artist: artistName));
         // Navigator.push(
         //     context,
@@ -189,6 +261,15 @@ class SongCard extends StatelessWidget {
         //           songId: songId,
         //           artistName: artistName,
         //         )));
+=======
+        Navigator.push(
+            context,
+            MaterialPageRoute(
+                builder: (context) => PlayPage(
+                      songId: songId,
+                      artistName: artistName,
+                    )));
+>>>>>>> dcbfd0b90d10dc2d87f505dcf6541c16640e348e
       },
       child: Container(
         padding: EdgeInsets.only(top: 5, bottom: 5),
@@ -259,7 +340,11 @@ class PlaylistCard extends StatelessWidget {
   PlaylistCard({this.trackId, this.playlistId, this.image, this.playlistName});
 
   Future<void> addingSongToPlaylist() async {
+<<<<<<< HEAD
     var url = 'https://ancient-spire-46177.herokuapp.com/tracks/addsongtoplaylist';
+=======
+    var url = 'https://spotify412.herokuapp.com/tracks/addsongtoplaylist';
+>>>>>>> dcbfd0b90d10dc2d87f505dcf6541c16640e348e
     Map<String, String> header = new Map();
 
     header['Content-Type'] = 'application/json';

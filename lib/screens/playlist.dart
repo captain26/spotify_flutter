@@ -22,7 +22,11 @@ class _MyPlaylistState extends State<MyPlaylist> {
 
   Future<List<dynamic>> fetchPlaylist() async {
     final response = await http.get(
+<<<<<<< HEAD
         "https://ancient-spire-46177.herokuapp.com/tracks/myplaylist/${widget.userId}");
+=======
+        "https://spotify412.herokuapp.com/tracks/myplaylist/${widget.userId}");
+>>>>>>> dcbfd0b90d10dc2d87f505dcf6541c16640e348e
     // print(jsonDecode(response.body)[0]['playlist_name']);
     if (response.statusCode == 200) {
       // If the server did return a 200 OK response,
@@ -39,7 +43,11 @@ class _MyPlaylistState extends State<MyPlaylist> {
   Future<void> addingPlaylist() async {
     print(playlist_name);
     var url =
+<<<<<<< HEAD
         'https://ancient-spire-46177.herokuapp.com/tracks/playlist/create/${widget.userId}';
+=======
+        'https://spotify412.herokuapp.com/tracks/playlist/create/${widget.userId}';
+>>>>>>> dcbfd0b90d10dc2d87f505dcf6541c16640e348e
     Map<String, String> header = new Map();
 
     header['Content-Type'] = 'application/json';

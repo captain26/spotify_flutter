@@ -9,19 +9,20 @@ import 'package:spotify/test.dart';
 class LandingPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    final auth  = Provider.of<Auth>(context);
+    final auth = Provider.of<Auth>(context);
 
     return StreamBuilder<User>(
       stream: auth.onAuthStateChanged,
-      builder: (context,snapshot)  {
-        if(snapshot.connectionState == ConnectionState.active){
+      builder: (context, snapshot) {
+        if (snapshot.connectionState == ConnectionState.active) {
           User user = snapshot.data;
-          if(user == null){
+          if (user == null) {
             return LoginPage();
           }
           final uid = user.uid;
           print('working');
           print(uid);
+<<<<<<< HEAD
           // return HomeScreen(userId: uid);
           return Provider<StreamModel>(
               create: (context) => StreamModel(),
@@ -29,6 +30,10 @@ class LandingPage extends StatelessWidget {
           );
 
         }else {
+=======
+          return Test(userId: uid);
+        } else {
+>>>>>>> dcbfd0b90d10dc2d87f505dcf6541c16640e348e
           return Scaffold(
             body: Center(
               child: CircularProgressIndicator(),
@@ -36,7 +41,6 @@ class LandingPage extends StatelessWidget {
           );
         }
       },
-
     );
   }
 }

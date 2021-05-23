@@ -8,16 +8,29 @@ import 'package:spotify/model/song_model.dart';
 import 'package:spotify/model/song_player.dart';
 
 class PlayPage extends StatefulWidget {
+<<<<<<< HEAD
   final Song songInfo;
 
   PlayPage({this.songInfo});
+=======
+  final String songId;
+  final String songName;
+  final String artistName;
+  PlayPage({this.songId, this.songName, this.artistName});
+>>>>>>> dcbfd0b90d10dc2d87f505dcf6541c16640e348e
   @override
   _PlayPageState createState() => _PlayPageState();
 }
 
+<<<<<<< HEAD
 class _PlayPageState extends State<PlayPage>{
 
   AudioPlayer audioPlayer = new AudioPlayer();
+=======
+class _PlayPageState extends State<PlayPage> {
+  AudioPlayer _player;
+  AudioCache cache;
+>>>>>>> dcbfd0b90d10dc2d87f505dcf6541c16640e348e
 
   Duration position = new Duration();
   Duration duration = new Duration();
@@ -98,6 +111,7 @@ class _PlayPageState extends State<PlayPage>{
                 SizedBox(
                   width: 20,
                 ),
+<<<<<<< HEAD
                 Consumer<checkBool>(
                   builder: (context,myCheck,child) {
                     return InkWell(
@@ -115,6 +129,19 @@ class _PlayPageState extends State<PlayPage>{
                       ),
                     );
                   }
+=======
+                InkWell(
+                  onTap: () {
+                    // getAudio();
+                  },
+                  child: Icon(
+                    playing == false
+                        ? Icons.play_circle_outline
+                        : Icons.pause_circle_outline,
+                    size: 70,
+                    color: Colors.white,
+                  ),
+>>>>>>> dcbfd0b90d10dc2d87f505dcf6541c16640e348e
                 ),
 
                 SizedBox(
@@ -133,6 +160,7 @@ class _PlayPageState extends State<PlayPage>{
     );
   }
 
+<<<<<<< HEAD
   void getAudio() async {
     String uid = widget.songInfo.uid;
     final player = Provider.of<SongPlayer>(context);
@@ -188,10 +216,70 @@ class _PlayPageState extends State<PlayPage>{
   void seekToSec(int sec){
     final player = Provider.of<SongPlayer>(context);
 
+=======
+  // void getAudio() async {
+  //   var url = "https://ancient-spire-46177.herokuapp.com/tracks/${widget.songId}";
+  //   // var url = "https://assets.mixkit.co/music/preview/mixkit-trip-hop-vibes-149.mp3";
+  //   if (playing) {
+  //     var res = await audioPlayer.pause();
+  //     if (res == 1) {
+  //       setState(() {
+  //         playing = false;
+  //       });
+  //     }
+  //   } else {
+  //     var res = await audioPlayer.play(url, isLocal: true);
+  //     if (res == 1) {
+  //       setState(() {
+  //         playing = true;
+  //       });
+  //     }
+  //   }
+  //   cache = AudioCache(fixedPlayer: audioPlayer);
+  //   audioPlayer.durationHandler = (d)  {
+  //     setState(() {
+  //       duration = d;
+  //     });
+  //   };
+  //   audioPlayer.positionHandler = (p){
+  //     setState(() {
+  //       position = p;
+  //     });
+  //   };
+  // audioPlayer.onDurationChanged.listen((Duration dd) {
+  //   setState(() {
+  //     duration = dd;
+  //   });
+  // });
+  // audioPlayer.onAudioPositionChanged.listen((Duration dd) {
+  //   setState(() {
+  //     position = dd;
+  //   });
+  // });
+  Widget slider() {
+    return Container(
+      width: 300.0,
+      child: Slider.adaptive(
+          activeColor: Colors.blue[800],
+          inactiveColor: Colors.grey[350],
+          value: position.inSeconds.toDouble(),
+          max: musicLength.inSeconds.toDouble(),
+          onChanged: (value) {
+            seekToSec(value.toInt());
+          }),
+    );
+  }
+
+  void seekToSec(int sec) {
+>>>>>>> dcbfd0b90d10dc2d87f505dcf6541c16640e348e
     Duration newPos = Duration(seconds: sec);
       player.audioPlayer.seek(newPos);
   }
+<<<<<<< HEAD
 
   }
 
 
+=======
+}
+>>>>>>> dcbfd0b90d10dc2d87f505dcf6541c16640e348e

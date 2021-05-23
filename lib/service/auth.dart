@@ -27,22 +27,20 @@ class Auth {
     return _userFromFirebase(authResult.user);
   }
 
-  Future<void> signOut() async{
+  Future<void> signOut() async {
     await FirebaseAuth.instance.signOut();
   }
 
-  Future<User> signinWithEmailPassword(String email, String password) async{
-    final authResult = await FirebaseAuth.instance.signInWithEmailAndPassword(
-        email: email, password: password);
-
+  Future<User> signinWithEmailPassword(String email, String password) async {
+    final authResult = await FirebaseAuth.instance
+        .signInWithEmailAndPassword(email: email, password: password);
     return _userFromFirebase(authResult.user);
   }
 
-  Future<User> createUserWithEmailPassword(String email, String password) async {
-    final authResult = await FirebaseAuth.instance.createUserWithEmailAndPassword(
-        email: email, password: password);
+  Future<User> createUserWithEmailPassword(
+      String email, String password) async {
+    final authResult = await FirebaseAuth.instance
+        .createUserWithEmailAndPassword(email: email, password: password);
     return _userFromFirebase(authResult.user);
-
   }
-
 }

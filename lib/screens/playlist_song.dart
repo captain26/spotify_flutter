@@ -3,9 +3,12 @@ import 'dart:math';
 
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+<<<<<<< HEAD
 import 'package:provider/provider.dart';
 import 'package:spotify/model/song_model.dart';
 import 'package:spotify/model/stream_model.dart';
+=======
+>>>>>>> dcbfd0b90d10dc2d87f505dcf6541c16640e348e
 import 'package:spotify/screens/playpage.dart';
 import 'package:http/http.dart' as http;
 
@@ -21,7 +24,11 @@ class _PlaylistSongsState extends State<PlaylistSongs> {
   Future<List<dynamic>> futureSong;
   Future<List<dynamic>> fetchSong() async {
     final response = await http.get(
+<<<<<<< HEAD
         "https://ancient-spire-46177.herokuapp.com/tracks/myplaylist/tracks/${widget.PlaylistId}");
+=======
+        "https://spotify412.herokuapp.com/tracks/myplaylist/tracks/${widget.PlaylistId}");
+>>>>>>> dcbfd0b90d10dc2d87f505dcf6541c16640e348e
     // print(jsonDecode(response.body)[0]['playlist_name']);
     if (response.statusCode == 200) {
       // If the server did return a 200 OK response,
@@ -96,6 +103,7 @@ class SongCard extends StatelessWidget {
   SongCard({this.image, this.sname, this.songId, this.artistName});
   @override
   Widget build(BuildContext context) {
+<<<<<<< HEAD
     final model = Provider.of<StreamModel>(context,listen: false);
     return InkWell(
       onTap: () {
@@ -106,6 +114,17 @@ class SongCard extends StatelessWidget {
         //         builder: (context) => PlayPage(
         //           songInfo: Song(Name: sname,Artist: artistName,uid: songId),
         //             )));
+=======
+    return InkWell(
+      onTap: () {
+        Navigator.push(
+            context,
+            MaterialPageRoute(
+                builder: (context) => PlayPage(
+                      songId: songId,
+                      artistName: artistName,
+                    )));
+>>>>>>> dcbfd0b90d10dc2d87f505dcf6541c16640e348e
       },
       child: Container(
         padding: EdgeInsets.only(top: 5, bottom: 5),
